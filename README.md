@@ -6,6 +6,7 @@
 1. move_scr.sh
 2. checkpoint-one-file+token.bash
 3. control_net_download.bash
+4. list-files.sh
 ```
 
 It is prepared for working with: **CyberRealistic_v5.0** *Checkpoint*
