@@ -1,0 +1,43 @@
+kimono
+dress 
+babydoll dress
+sari
+jogging suit
+cardigan
+blazer
+waistcoat
+sundress
+blouse
+camisole
+sweatshirt
+shirt
+sweater
+suit
+shorts
+skirt
+pencil skirt
+pleated skirt
+leggings
+tutu
+skinny jeans
+outerwear
+jacket
+coat
+a down jacket
+trench coat
+anorak
+fur coat
+leather jacket
+windbreaker
+g-string
+lingerie
+underwear
+lace
+veil
+mantle
+hoody
+hood
+fur jacket
+swimsuit
+overalls
+panties
