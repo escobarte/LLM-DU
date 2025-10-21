@@ -14,3 +14,5 @@ Lora is trained on this checkpoint.
 **To Do:**
 Add Lora in Repo
 Update or create scritp for. 
+
+# IMPORTANT: Don't Forget to `chmod +x <file_script_name>.sh`
