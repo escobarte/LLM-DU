@@ -34,19 +34,10 @@ download_model() {
     local name="$1"
     local url="$2"
     local extension="$3"
-    local final_filename="${name}${extension}"
-    
+
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${BLUE}Downloading: ${name}${NC}"
-    echo -e "${YELLOW}Final filename: ${final_filename}${NC}"
-    
-    # Check if file already exists
-    if [ -f "${MODELS_DIR}/${final_filename}" ]; then
-        echo -e "${YELLOW}⚠ File already exists, skipping download${NC}"
-        echo ""
-        return
-    fi
-    
+
     # Add API token to URL if it's a Civitai link and token is set
     if [[ "$url" == *"civitai.com"* ]] && [ ! -z "$CIVITAI_TOKEN" ]; then
         if [[ "$url" == *"?"* ]]; then
@@ -56,32 +47,39 @@ download_model() {
         fi
         echo -e "${GREEN}✓ Using Civitai authentication${NC}"
     fi
-    
-    # Download to temp directory
-    wget -O "${TEMP_DIR}/${final_filename}" "$url" \
-        --progress=bar:force \
-        --content-disposition \
-        2>&1
-    
-    if [ $? -eq 0 ] && [ -f "${TEMP_DIR}/${final_filename}" ]; then
-        echo -e "${GREEN}✓ Download complete${NC}"
-        
-        # Move to models directory
-        if mv "${TEMP_DIR}/${final_filename}" "${MODELS_DIR}/${final_filename}"; then
-            echo -e "${GREEN}✓ Saved as: ${final_filename}${NC}"
-            echo -e "${GREEN}✓ Location: ${MODELS_DIR}/${NC}"
-            
-            # Show file size
-            local size=$(du -h "${MODELS_DIR}/${final_filename}" | cut -f1)
-            echo -e "${GREEN}✓ File size: ${size}${NC}"
+
+    # Download to TEMP_DIR using content-disposition (lets server set filename)
+    wget --content-disposition \
+         --directory-prefix="$TEMP_DIR" \
+         "$url" \
+         --progress=bar:force
+
+    # Get latest downloaded file
+    downloaded_file=$(ls -t "$TEMP_DIR" | head -n1)
+    downloaded_path="${TEMP_DIR}/${downloaded_file}"
+
+    if [ -f "$downloaded_path" ]; then
+        echo -e "${GREEN}✓ Download complete: $downloaded_file${NC}"
+
+        # Check if already exists in destination
+        if [ -f "${MODELS_DIR}/${downloaded_file}" ]; then
+            echo -e "${YELLOW}⚠ File already exists in models dir, skipping move${NC}"
         else
-            echo -e "${RED}✗ Failed to move file to models directory${NC}"
+            if mv "$downloaded_path" "${MODELS_DIR}/${downloaded_file}"; then
+                echo -e "${GREEN}✓ Moved to: ${MODELS_DIR}/${downloaded_file}${NC}"
+                local size=$(du -h "${MODELS_DIR}/${downloaded_file}" | cut -f1)
+                echo -e "${GREEN}✓ File size: ${size}${NC}"
+            else
+                echo -e "${RED}✗ Failed to move file to models directory${NC}"
+            fi
         fi
     else
-        echo -e "${RED}✗ Download failed for ${name}${NC}"
+        echo -e "${RED}✗ Download failed or file not found for ${name}${NC}"
     fi
+
     echo ""
 }
+
 
 # Start downloads
 echo "Starting model downloads..."
