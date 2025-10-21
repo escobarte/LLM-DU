@@ -6,7 +6,7 @@
 # Define folders
 EMBEDDINGS="/workspace/stable-diffusion-webui-forge/embeddings"
 ESRGAN="/workspace/stable-diffusion-webui-forge/models/ESRGAN"
-LORA="/workspace/stable-diffusion-webui-forge/models/LORA"
+LORA="/workspace/stable-diffusion-webui-forge/models/Lora/"
 WILDCARDS="/workspace/stable-diffusion-webui-forge/extensions/wildcards"
 CHECKPOINTS="/workspace/stable-diffusion-webui-forge/models/Stable-diffusion"
 CONTROLNET="/workspace/stable-diffusion-webui-forge/models/ControlNet"
