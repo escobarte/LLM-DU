@@ -11,6 +11,7 @@
 3. control_net_download.bash
 4. list-files.sh
 5. backup.sh
+6. restore-backup.sh
 ```
 
 It is prepared for working with: **CyberRealistic_v5.0** *Checkpoint*
